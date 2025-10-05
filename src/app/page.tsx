@@ -1,7 +1,7 @@
 import Header from '@/components/Header'
 import StatsCard from '@/components/StatsCard'
 import RecentActivity from '@/components/RecentActivity'
-import PushNotificationManager from '@/components/PushNotificationManager'
+import PushNotificationManager from '@/components/PushNotificationManager-simple'
 
 export default function Home() {
   return (
