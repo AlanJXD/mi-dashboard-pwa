@@ -6,7 +6,6 @@ import {
   setupForegroundMessages,
   isPushSupported,
   getStoredToken,
-  isPushActive,
   sendTestPush,
   registerForAutoNotifications,
   getAutoNotificationsStatus,
@@ -21,8 +20,14 @@ export default function PushNotificationManager() {
   const [isProd, setIsProd] = useState(false);
   const [autoStatus, setAutoStatus] = useState<any>(null);
   const [loadingAuto, setLoadingAuto] = useState(true);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
+    
+    // Solo ejecutar en el cliente
+    if (typeof window === 'undefined') return;
+
     const initialize = async () => {
       const supported = isPushSupported();
       setIsSupported(supported);
@@ -46,6 +51,8 @@ export default function PushNotificationManager() {
   }, []);
 
   const fetchAutoStatus = async () => {
+    if (typeof window === 'undefined') return;
+    
     setLoadingAuto(true);
     try {
       const status = await getAutoNotificationsStatus();
@@ -58,6 +65,8 @@ export default function PushNotificationManager() {
   };
 
   const handleEnablePush = async () => {
+    if (typeof window === 'undefined') return;
+    
     setStatus("loading");
     try {
       const newToken = await requestPushPermission();
@@ -78,6 +87,8 @@ export default function PushNotificationManager() {
   };
 
   const handleTestPush = async () => {
+    if (typeof window === 'undefined') return;
+    
     const success = await sendTestPush(
       "🚀 Prueba Push Exitosa",
       "¡Las notificaciones push están funcionando correctamente!"
@@ -87,6 +98,20 @@ export default function PushNotificationManager() {
       alert("✅ Notificación de prueba enviada. Debería llegar en 3 segundos.");
     }
   };
+
+  // Evitar renderizado hasta que esté montado en el cliente
+  if (!mounted) {
+    return (
+      <div className="bg-white shadow rounded-lg p-6">
+        <div className="animate-pulse">
+          <div className="h-6 bg-gray-200 rounded w-1/2 mb-4"></div>
+          <div className="h-4 bg-gray-200 rounded w-full mb-2"></div>
+          <div className="h-10 bg-gray-200 rounded mb-4"></div>
+          <div className="h-20 bg-gray-200 rounded"></div>
+        </div>
+      </div>
+    );
+  }
 
   if (!isSupported) {
     return (

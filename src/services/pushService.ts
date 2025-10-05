@@ -30,6 +30,10 @@ const isLocalhost = Boolean(
 );
 
 export const requestPushPermission = async (): Promise<string | null> => {
+  if (typeof window === "undefined") {
+    return null; // o false, o lo que corresponda
+  }
+
   try {
     console.log("🚀 Solicitando permisos push...");
 
@@ -95,6 +99,9 @@ const saveTokenToBackend = async (token: string) => {
 
 // Escuchar mensajes cuando la app está en primer plano
 export const setupForegroundMessages = () => {
+  if (typeof window === "undefined") {
+    return null; // o false, o lo que corresponda
+  }
   console.log("👀 Configurando listener de mensajes en primer plano...");
 
   onMessage(messaging, (payload) => {
@@ -114,22 +121,34 @@ export const setupForegroundMessages = () => {
 
 // Verificar soporte
 export const isPushSupported = (): boolean => {
+  if (typeof window === "undefined") {
+    return false; // o false, o lo que corresponda
+  }
   return "serviceWorker" in navigator && "PushManager" in window;
 };
 
 // Obtener token guardado
 export const getStoredToken = (): string | null => {
+  if (typeof window === "undefined") {
+    return null; // o false, o lo que corresponda
+  }
   return localStorage.getItem("fcm_token");
 };
 
 // Verificar si está activo
 export const isPushActive = (): boolean => {
+  if (typeof window === "undefined") {
+    return false; // o false, o lo que corresponda
+  }
   const token = getStoredToken();
   return !!token;
 };
 
 // Para testing: enviar notificación push de prueba
 export const sendTestPush = async (title: string, body: string) => {
+  if (typeof window === "undefined") {
+    return false; // o false, o lo que corresponda
+  }
   const token = getStoredToken();
   if (!token) {
     console.log("❌ No hay token para enviar prueba");
@@ -158,6 +177,9 @@ export const sendTestPush = async (title: string, body: string) => {
 
 // Función para enviar push notification REAL
 export const sendRealPushNotification = async (title: string, body: string) => {
+  if (typeof window === "undefined") {
+    return false; // o false, o lo que corresponda
+  }
   const token = getStoredToken();
   if (!token) {
     console.log("❌ No hay token para enviar notificación");
@@ -196,6 +218,9 @@ export const sendRealPushNotification = async (title: string, body: string) => {
 };
 
 export const registerForAutoNotifications = async (token: string) => {
+  if (typeof window === "undefined") {
+    return false; // o false, o lo que corresponda
+  }
   try {
     console.log("⏰ Registrando para notificaciones automáticas...");
 
@@ -233,6 +258,9 @@ export const registerForAutoNotifications = async (token: string) => {
 
 // Verificar estado del servicio
 export const getAutoNotificationsStatus = async () => {
+  if (typeof window === "undefined") {
+    return null; // o false, o lo que corresponda
+  }
   try {
     const response = await fetch("/api/auto-notifications");
     const result = await response.json();
