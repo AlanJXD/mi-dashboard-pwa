@@ -1,7 +1,7 @@
 import Header from '@/components/Header'
 import StatsCard from '@/components/StatsCard'
 import RecentActivity from '@/components/RecentActivity'
-import NotificationControls from '@/components/NotificationControls'
+import PushNotificationManager from '@/components/PushNotificationManager'
 
 export default function Home() {
   return (
@@ -58,7 +58,7 @@ export default function Home() {
           </div>
 
           {/* Controles de notificación */}
-          <NotificationControls />
+          <PushNotificationManager />
         </div>
 
         {/* Segunda fila */}
@@ -115,6 +115,32 @@ export default function Home() {
                   </tbody>
                 </table>
               </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Información adicional sobre notificaciones automáticas */}
+        <div className="mt-8 bg-blue-50 border border-blue-200 rounded-lg p-6">
+          <h3 className="text-lg font-medium text-blue-900 mb-3">
+            ⏰ Sistema de Notificaciones Automáticas
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-blue-800">
+            <div>
+              <p className="font-medium mb-2">¿Cómo funciona?</p>
+              <ul className="list-disc list-inside space-y-1">
+                <li>Notificaciones automáticas cada 2 minutos</li>
+                <li>Mensajes rotativos sobre métricas del dashboard</li>
+                <li>Funciona incluso con la app cerrada</li>
+                <li>Todos los usuarios registrados reciben las notificaciones</li>
+              </ul>
+            </div>
+            <div>
+              <p className="font-medium mb-2">Próximos pasos:</p>
+              <ul className="list-disc list-inside space-y-1">
+                <li>Activa las notificaciones push arriba</li>
+                <li>Espera 2 minutos para la primera notificación automática</li>
+                <li>Cierra la app para probar notificaciones en segundo plano</li>
+              </ul>
             </div>
           </div>
         </div>
