@@ -152,3 +152,42 @@ export const sendTestPush = async (title: string, body: string) => {
   
   return true;
 };
+
+// Función para enviar push notification REAL
+export const sendRealPushNotification = async (title: string, body: string) => {
+    const token = getStoredToken();
+    if (!token) {
+      console.log('❌ No hay token para enviar notificación');
+      return false;
+    }
+  
+    try {
+      console.log('🚀 Enviando notificación push REAL...');
+      
+      // Usa la ruta del API que creaste
+      const response = await fetch('/api/send-push', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          token: token,
+          title: title,
+          body: body
+        }),
+      });
+  
+      const result = await response.json();
+      
+      if (result.success) {
+        console.log('✅ Notificación push REAL enviada exitosamente');
+        return true;
+      } else {
+        console.error('❌ Error del servidor:', result.error);
+        return false;
+      }
+    } catch (error) {
+      console.error('💥 Error enviando notificación real:', error);
+      return false;
+    }
+  };
